@@ -119,3 +119,5 @@ CloseButton.TextScaled = true
 
 local CloseButtonStroke = BackgroundStroke:Clone()
 CloseButtonStroke.Parent = CloseButton
+
+CloseButton.MouseButton1Click:Connect(function()
