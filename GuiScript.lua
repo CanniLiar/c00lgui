@@ -1,0 +1,146 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local StarterGui = player.PlayerGui
+local UserInputService = game:GetService("UserInputService")
+
+local function PlaySound(soundId)
+	local sound = Instance.new("Sound")
+	sound.SoundId = soundId
+	sound.Parent = game:GetService("SoundService")
+	sound:Play()
+	sound.Ended:Connect(function()
+		sound:Destroy()
+	end)
+end
+
+--UI
+
+for _, obj in ipairs(StarterGui:GetChildren()) do
+	if obj.Name == "c00lgui" or obj.Name == "c00lguiBase" then
+		obj:Destroy()
+	end
+end
+
+local c00lgui = Instance.new("ScreenGui")
+c00lgui.Name = "c00lgui"
+c00lgui.Parent = StarterGui
+
+local Background = Instance.new("Frame")
+Background.Name = "Background"
+Background.Parent = c00lgui
+Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Background.Position = UDim2.new(0.021, 0, 0.044, 0)
+Background.Size = UDim2.new(0.354, 0, 0.913, 0)
+
+local BackgroundStroke = Instance.new("UIStroke")
+BackgroundStroke.Parent = Background
+BackgroundStroke.Thickness = 5
+BackgroundStroke.Color = Color3.fromRGB(255, 0, 0)
+BackgroundStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+BackgroundStroke.BorderStrokePosition = Enum.BorderStrokePosition.Inner
+
+local Title = Instance.new("TextLabel")
+Title.Parent = Background
+Title.Name = "Title"
+Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title.Text = "c00lgui Remake 2026 V1"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.Size = UDim2.new(0.85, 0, 0.113, 0)
+
+local TitleStroke = BackgroundStroke:Clone()
+TitleStroke.Parent = Title
+
+local NextPG = Instance.new("TextButton")
+NextPG.Parent = Background
+NextPG.Name = "NextPG"
+NextPG.Text = ">>"
+NextPG.TextScaled = true
+NextPG.Size = UDim2.new(0.5, 0, 0.146, 0)
+NextPG.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NextPG.TextColor3 = Color3.fromRGB(255, 255, 255)
+NextPG.Position = UDim2.new(0.5, 0, 0.885, 0)
+
+local LastPG = NextPG:Clone()
+LastPG.Position = UDim2.new(0, 0, 0.885, 0)
+LastPG.Text = "<<"
+LastPG.Parent = Background
+
+local LastPGStroke = BackgroundStroke:Clone()
+LastPGStroke.Parent = LastPG
+
+local NextPGStroke = BackgroundStroke:Clone()
+NextPGStroke.Parent = NextPG
+
+local PG1 = Instance.new("Frame")
+PG1.Parent = Background
+PG1.Name = "PG1"
+PG1.BackgroundTransparency = 1
+PG1.Size = UDim2.new(1, 0, 0.773, 0)
+PG1.Position = UDim2.new(0, 0, 0.113, 0)
+
+local ChangeSkybox = Instance.new("TextButton")
+ChangeSkybox.Parent = PG1
+ChangeSkybox.Name = "ChangeSkybox"
+ChangeSkybox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ChangeSkybox.Text = "Change Skybox"
+ChangeSkybox.TextColor3 = Color3.fromRGB(255, 255, 255)
+ChangeSkybox.TextScaled = true
+ChangeSkybox.Size = UDim2.new(0.5, 0, 0.209, 0)
+
+local ChangeSkyboxStroke = BackgroundStroke:Clone()
+ChangeSkyboxStroke.Parent = ChangeSkybox
+
+local SkyboxId = Instance.new("TextBox")
+SkyboxId.Parent = ChangeSkybox
+SkyboxId.Text = ""
+SkyboxId.Name = "ID"
+SkyboxId.Size = UDim2.new(1, 0, 1, 0)
+SkyboxId.PlaceholderText = "Image ID"
+SkyboxId.Position = UDim2.new(1, 0, 0, 0)
+SkyboxId.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SkyboxId.TextColor3 = Color3.fromRGB(255, 255, 255)
+SkyboxId.TextScaled = true
+SkyboxId.ClearTextOnFocus = false
+
+local SkyboxIdStroke = BackgroundStroke:Clone()
+SkyboxIdStroke.Parent = SkyboxId
+
+local PartsTextures = ChangeSkybox:Clone()
+PartsTextures.Position = UDim2.new(0, 0, 0.209, 0)
+PartsTextures.Text = "Change Parts Texture"
+PartsTextures.Name = "ChangePartsTexture"
+PartsTextures.Parent = PG1
+
+local PartTextID = PartsTextures:WaitForChild("ID")
+PartTextID.Name = "ID"
+
+local ServerDestroy = ChangeSkybox:Clone()
+ServerDestroy.Parent = PG1
+ServerDestroy.Name = "ServerDestroy"
+ServerDestroy.Text = "Server:Destroy()"
+ServerDestroy.TextColor3 = Color3.fromRGB(255, 0, 0)
+ServerDestroy.Position = UDim2.new(0, 0, 0.801, 0)
+ServerDestroy.Size = UDim2.new(1, 0, 0.209, 0)
+ServerDestroy:WaitForChild("ID"):Destroy()
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = Background
+CloseButton.Position = UDim2.new(0.85, 0, 0, 0)
+CloseButton.Size = UDim2.new(0.15, 0, 0.113, 0)
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+CloseButton.TextScaled = true
+
+local CloseButtonStroke = BackgroundStroke:Clone()
+CloseButtonStroke.Parent = CloseButton
+
+CloseButton.MouseButton1Click:Connect(function()
+	c00lgui:Destroy()
+end)
+
+ServerDestroy.MouseButton1Click:Connect(function()
+	game:GetService("ReplicatedStorage").ServerDestroy:FireServer()
+	print("Fired Server.")
+end)
